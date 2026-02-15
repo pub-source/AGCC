@@ -1,0 +1,230 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Church Web Application Design System
+   Theme: Deep Navy Blue & Violet - Elegant, Spiritual, Modern
+   All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Core Navy/Violet Theme */
+    --background: 222 47% 5%;
+    --foreground: 210 40% 96%;
+
+    --card: 222 47% 8%;
+    --card-foreground: 210 40% 96%;
+
+    --popover: 222 47% 8%;
+    --popover-foreground: 210 40% 96%;
+
+    /* Primary: Deep Violet */
+    --primary: 263 70% 50%;
+    --primary-foreground: 210 40% 98%;
+
+    /* Secondary: Navy Blue */
+    --secondary: 222 47% 15%;
+    --secondary-foreground: 210 40% 96%;
+
+    --muted: 222 30% 18%;
+    --muted-foreground: 215 20% 60%;
+
+    /* Accent: Soft Violet Glow */
+    --accent: 263 50% 30%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 222 30% 18%;
+    --input: 222 30% 18%;
+    --ring: 263 70% 50%;
+
+    --radius: 0.75rem;
+
+    /* Custom Church Theme Colors */
+    --navy-deep: 222 47% 5%;
+    --navy: 222 47% 11%;
+    --navy-light: 222 40% 20%;
+    --violet: 263 70% 50%;
+    --violet-glow: 263 70% 65%;
+    --violet-dark: 263 60% 35%;
+    --gold: 45 90% 55%;
+    --gold-soft: 45 70% 70%;
+    
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(222 47% 5%) 0%, hsl(263 60% 15%) 50%, hsl(222 47% 8%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(222 47% 10%) 0%, hsl(222 47% 6%) 100%);
+    --gradient-violet: linear-gradient(135deg, hsl(263 70% 50%) 0%, hsl(263 60% 35%) 100%);
+    --gradient-glow: radial-gradient(ellipse at center, hsl(263 70% 50% / 0.15) 0%, transparent 70%);
+    
+    /* Shadows */
+    --shadow-glow: 0 0 60px hsl(263 70% 50% / 0.2);
+    --shadow-card: 0 4px 24px hsl(222 47% 2% / 0.5);
+    --shadow-elevated: 0 20px 60px hsl(222 47% 2% / 0.7);
+
+    /* Sidebar */
+    --sidebar-background: 222 47% 8%;
+    --sidebar-foreground: 210 40% 90%;
+    --sidebar-primary: 263 70% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 222 40% 15%;
+    --sidebar-accent-foreground: 210 40% 96%;
+    --sidebar-border: 222 30% 18%;
+    --sidebar-ring: 263 70% 50%;
+  }
+
+  .dark {
+    /* Dark mode is the default - same values */
+    --background: 222 47% 5%;
+    --foreground: 210 40% 96%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer components {
+  /* Glass morphism effect */
+  .glass {
+    @apply bg-card/50 backdrop-blur-xl border border-white/10;
+  }
+
+  .glass-card {
+    @apply bg-gradient-to-b from-card/80 to-card/40 backdrop-blur-xl border border-white/10 rounded-xl;
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Glow effects */
+  .glow-violet {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .glow-text {
+    text-shadow: 0 0 40px hsl(263 70% 50% / 0.5);
+  }
+
+  /* Hero gradient background */
+  .hero-gradient {
+    background: var(--gradient-hero);
+  }
+
+  .card-gradient {
+    background: var(--gradient-card);
+  }
+
+  /* Animated gradient border */
+  .gradient-border {
+    position: relative;
+    background: linear-gradient(var(--card), var(--card)) padding-box,
+                linear-gradient(135deg, hsl(263 70% 50%), hsl(222 47% 20%), hsl(263 70% 50%)) border-box;
+    border: 1px solid transparent;
+  }
+
+  /* Text gradient */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(263 70% 65%), hsl(210 40% 98%), hsl(263 70% 50%));
+  }
+
+  .text-gradient-gold {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(45 90% 55%), hsl(45 70% 70%));
+  }
+
+  /* Section backgrounds */
+  .section-dark {
+    @apply bg-background;
+  }
+
+  .section-elevated {
+    background: hsl(222 47% 7%);
+  }
+
+  /* Subtle patterns */
+  .pattern-dots {
+    background-image: radial-gradient(circle, hsl(263 70% 50% / 0.1) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  /* Link underline animation */
+  .link-underline {
+    @apply relative;
+  }
+
+  .link-underline::after {
+    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300;
+    content: '';
+  }
+
+  .link-underline:hover::after {
+    @apply w-full;
+  }
+}
+
+@layer utilities {
+  /* Animation utilities */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+
+  @keyframes glow {
+    from { box-shadow: 0 0 20px hsl(263 70% 50% / 0.3); }
+    to { box-shadow: 0 0 40px hsl(263 70% 50% / 0.5); }
+  }
+
+  /* Fade in animations */
+  .fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Stagger delays */
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+  .delay-500 { animation-delay: 500ms; }
+}
