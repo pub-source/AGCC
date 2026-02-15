@@ -38,7 +38,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              A community of faith, hope, and love. Led by Pastors Dennis & Josephine Pobadora.
+              A community of faith, hope, and love. Led by Pastor Dennis & Josephine Pobadora.
             </p>
             <div className="flex gap-4">
               {socialLinks.map((social) => (
@@ -94,7 +94,7 @@ export function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-sm text-muted-foreground">
                 <MapPin className="h-5 w-5 shrink-0 text-primary" />
-                <span>123 Faith Avenue<br />Springfield, IL 62701</span>
+                <span>BLK 14 LOT 14 PHS2<br />LAKESIDENEST, BANAY-BANAY, CABUYAO, LAGUNA</span>
               </li>
               <li className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Phone className="h-5 w-5 shrink-0 text-primary" />
@@ -102,7 +102,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Mail className="h-5 w-5 shrink-0 text-primary" />
-                <span>hello@gracechurch.org</span>
+                <span>hello@awesomeGod.org</span>
               </li>
             </ul>
           </div>
