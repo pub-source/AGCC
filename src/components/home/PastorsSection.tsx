@@ -21,7 +21,7 @@ const seniorPastors = [
   },
   {
     name: "Ptr. Josephine Pobadora",
-    role: "Co-Pastor",
+    role: "Senior Pastor's Wife",
     initials: "JP",
     image: jho,
   },
