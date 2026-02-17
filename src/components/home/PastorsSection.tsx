@@ -3,25 +3,25 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import ptrDennisImg from "@/assets/ptrDennis.jpg";
-import pobadoraImg from "src/assets/ptraJho.jpg";
+import jho from "@/assets/ptraJho.jpg";
 import ptrMelvinImg from "@/assets/ptrmelvin.jpg";
 import familyEdmarImg from "@/assets/familyEdmar.jpg";
-import dominguitoImg from "src/assets/nelson.jpg";
-import irahImg from "@/assets/danilo.jpg";
+import nelson from "@/assets/nelson.jpg";
+import danilo from "@/assets/danilo.jpg";
 import peniamenteImg from "@/assets/peniamante.jpg";
 import batangasImg from "@/assets/ptraRachell.jpg";
 import villa2Img from "@/assets/villa2.jpg";
 
 const seniorPastors = [
   { name: "Ptr. Dennis Pobadora", role: "Senior Pastor", initials: "DP", image: ptrDennisImg },
-  { name: "Ptr. Josephine Pobadora", role: "Co-Pastor", initials: "JP", image: pobadoraImg },
+  { name: "Ptr. Josephine Pobadora", role: "Co-Pastor", initials: "JP", image: jho },
 ];
 
 const otherPastors = [
   { name: "Ptr. Melvin Arellano", role: "Associate Pastor", initials: "MA", image: ptrMelvinImg },
   { name: "Ptr. John Edmar Redoble", role: "Associate Pastor", initials: "JR", image: familyEdmarImg },
-  { name: "Ptr. Nelson Roca", role: "Pastor", initials: "NR", image: dominguitoImg },
-  { name: "Ptr. Danilo Malazarte", role: "Pastor", initials: "DM", image: irahImg },
+  { name: "Ptr. Nelson Roca", role: "Pastor", initials: "NR", image: nelson },
+  { name: "Ptr. Danilo Malazarte", role: "Pastor", initials: "DM", image: danilo },
   { name: "Ptr. Geryme Peñamante", role: "Pastor", initials: "GP", image: peniamenteImg },
   { name: "Ptra. Rachelle Albarico", role: "Pastor", initials: "RA", image: batangasImg },
 ];
