@@ -84,7 +84,7 @@ function PastorCard({
       <div
         className="
           glass-card
-          p-8
+          p-6 sm:p-8
           text-center
           group
           transition-all
@@ -93,24 +93,26 @@ function PastorCard({
           border-white/10
           hover:border-primary/40
           rounded-2xl
-          h-[260px]
+          min-h-[260px]
+          h-auto
           flex
           flex-col
           justify-center
         "
       >
-        <Avatar className="w-24 h-24 mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-primary/20 ring-2 ring-primary/20">
+        <Avatar className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-5 sm:mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-primary/20 ring-2 ring-primary/20">
           <AvatarImage src={pastor.image} alt={pastor.name} className="object-cover" />
-          <AvatarFallback className="bg-gradient-to-br from-primary to-violet-dark text-primary-foreground font-serif font-bold text-2xl">
+          <AvatarFallback className="bg-gradient-to-br from-primary to-violet-dark text-primary-foreground font-serif font-bold text-xl sm:text-2xl">
             {pastor.initials}
           </AvatarFallback>
         </Avatar>
 
-        <h3 className="font-serif text-xl font-semibold mb-2 group-hover:text-primary transition-colors line-clamp-2">
+        {/* ✅ NO line clamp now, so it won't cut on mobile */}
+        <h3 className="font-serif text-base sm:text-xl font-semibold mb-2 group-hover:text-primary transition-colors break-words">
           {pastor.name}
         </h3>
 
-        <p className="text-primary text-sm font-medium">{pastor.role}</p>
+        <p className="text-primary text-xs sm:text-sm font-medium">{pastor.role}</p>
       </div>
     </motion.div>
   );
@@ -128,7 +130,7 @@ function ComingSoonCard({ index }: { index: number }) {
       <div
         className="
           glass-card
-          p-8
+          p-6 sm:p-8
           text-center
           transition-all
           duration-300
@@ -136,7 +138,8 @@ function ComingSoonCard({ index }: { index: number }) {
           border-dashed
           border-white/15
           rounded-2xl
-          h-[260px]
+          min-h-[260px]
+          h-auto
           flex
           flex-col
           items-center
@@ -145,15 +148,15 @@ function ComingSoonCard({ index }: { index: number }) {
           hover:opacity-100
         "
       >
-        <div className="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-6">
-          <span className="text-3xl">✨</span>
+        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-5 sm:mb-6">
+          <span className="text-2xl sm:text-3xl">✨</span>
         </div>
 
-        <h3 className="font-serif text-xl font-semibold italic text-muted-foreground">
+        <h3 className="font-serif text-base sm:text-xl font-semibold italic text-muted-foreground break-words">
           Pastor Coming Soon
         </h3>
 
-        <p className="text-xs text-muted-foreground mt-2 italic">
+        <p className="text-[10px] sm:text-xs text-muted-foreground mt-2 italic">
           Stay tuned for updates
         </p>
       </div>
@@ -191,7 +194,7 @@ export function PastorsSection() {
         </motion.div>
 
         {/* Senior Pastors */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-3xl mx-auto mb-8">
           {seniorPastors.map((pastor, index) => (
             <PastorCard key={pastor.name} pastor={pastor} index={index} />
           ))}
@@ -223,7 +226,7 @@ export function PastorsSection() {
               transition={{ duration: 0.4, ease: "easeInOut" }}
               className="overflow-hidden"
             >
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 max-w-5xl mx-auto pt-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 max-w-5xl mx-auto pt-4">
                 {otherPastors.map((pastor, index) => (
                   <PastorCard key={pastor.name} pastor={pastor} index={index} />
                 ))}
