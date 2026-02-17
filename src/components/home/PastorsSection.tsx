@@ -7,8 +7,8 @@ import jho from "@/assets/ptraJho.jpg";
 import ptrMelvinImg from "@/assets/ptrmelvin.jpg";
 import familyEdmarImg from "@/assets/familyEdmar.jpg";
 import nelson from "@/assets/nelson.jpg";
-import danilo from "@/assets/danilo.jpg";
-import peniamenteImg from "@/assets/peniamante.jpg";
+import danilo from "@/assets/damilo.jpg"; 
+import peniamenteImg from "@/assets/peniamante.jpg"; 
 import batangasImg from "@/assets/ptraRachell.jpg";
 import villa2Img from "@/assets/villa2.jpg";
 
