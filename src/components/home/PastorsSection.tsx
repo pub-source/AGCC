@@ -2,50 +2,160 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+
 import ptrDennisImg from "@/assets/ptrDennis.jpg";
 import jho from "@/assets/ptraJho.jpg";
 import ptrMelvinImg from "@/assets/ptrmelvin.jpg";
 import familyEdmarImg from "@/assets/familyEdmar.jpg";
 import nelson from "@/assets/nelson.jpg";
-import danilo from "@/assets/damilo.jpg"; 
-import peniamenteImg from "@/assets/peniamante.jpg"; 
+import danilo from "@/assets/damilo.jpg";
+import peniamenteImg from "@/assets/peniamante.jpg";
 import batangasImg from "@/assets/ptraRachell.jpg";
-import villa2Img from "@/assets/villa2.jpg";
 
 const seniorPastors = [
-  { name: "Ptr. Dennis Pobadora", role: "Senior Pastor", initials: "DP", image: ptrDennisImg },
-  { name: "Ptr. Josephine Pobadora", role: "Co-Pastor", initials: "JP", image: jho },
+  {
+    name: "Ptr. Dennis Pobadora",
+    role: "Senior Pastor",
+    initials: "DP",
+    image: ptrDennisImg,
+  },
+  {
+    name: "Ptr. Josephine Pobadora",
+    role: "Co-Pastor",
+    initials: "JP",
+    image: jho,
+  },
 ];
 
 const otherPastors = [
-  { name: "Ptr. Melvin Arellano", role: "Associate Pastor", initials: "MA", image: ptrMelvinImg },
-  { name: "Ptr. John Edmar Redoble", role: "Associate Pastor", initials: "JR", image: familyEdmarImg },
-  { name: "Ptr. Nelson Roca", role: "Pastor", initials: "NR", image: nelson },
-  { name: "Ptr. Danilo Malazarte", role: "Pastor", initials: "DM", image: danilo },
-  { name: "Ptr. Geryme Peñamante", role: "Pastor", initials: "GP", image: peniamenteImg },
-  { name: "Ptra. Rachelle Albarico", role: "Pastor", initials: "RA", image: batangasImg },
+  {
+    name: "Ptr. Melvin Arellano",
+    role: "Associate Pastor",
+    initials: "MA",
+    image: ptrMelvinImg,
+  },
+  {
+    name: "Ptr. John Edmar Redoble",
+    role: "Associate Pastor",
+    initials: "JR",
+    image: familyEdmarImg,
+  },
+  {
+    name: "Ptr. Nelson Roca",
+    role: "Pastor",
+    initials: "NR",
+    image: nelson,
+  },
+  {
+    name: "Ptr. Danilo Malazarte",
+    role: "Pastor",
+    initials: "DM",
+    image: danilo,
+  },
+  {
+    name: "Ptr. Geryme Peñamante",
+    role: "Pastor",
+    initials: "GP",
+    image: peniamenteImg,
+  },
+  {
+    name: "Ptra. Rachelle Albarico",
+    role: "Pastor",
+    initials: "RA",
+    image: batangasImg,
+  },
 ];
 
-function PastorCard({ pastor, index }: { pastor: typeof seniorPastors[0]; index: number }) {
+function PastorCard({
+  pastor,
+  index,
+}: {
+  pastor: (typeof seniorPastors)[0];
+  index: number;
+}) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="w-full"
+      className="w-full h-full"
     >
-      <div className="glass-card p-8 text-center group hover:border-primary/30 transition-all duration-300">
+      <div
+        className="
+          glass-card
+          p-8
+          text-center
+          group
+          transition-all
+          duration-300
+          border
+          border-white/10
+          hover:border-primary/40
+          rounded-2xl
+          h-[260px]
+          flex
+          flex-col
+          justify-center
+        "
+      >
         <Avatar className="w-24 h-24 mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-primary/20 ring-2 ring-primary/20">
           <AvatarImage src={pastor.image} alt={pastor.name} className="object-cover" />
           <AvatarFallback className="bg-gradient-to-br from-primary to-violet-dark text-primary-foreground font-serif font-bold text-2xl">
             {pastor.initials}
           </AvatarFallback>
         </Avatar>
-        <h3 className="font-serif text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
+
+        <h3 className="font-serif text-xl font-semibold mb-2 group-hover:text-primary transition-colors line-clamp-2">
           {pastor.name}
         </h3>
+
         <p className="text-primary text-sm font-medium">{pastor.role}</p>
+      </div>
+    </motion.div>
+  );
+}
+
+function ComingSoonCard({ index }: { index: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="w-full h-full"
+    >
+      <div
+        className="
+          glass-card
+          p-8
+          text-center
+          transition-all
+          duration-300
+          border
+          border-dashed
+          border-white/15
+          rounded-2xl
+          h-[260px]
+          flex
+          flex-col
+          items-center
+          justify-center
+          opacity-80
+          hover:opacity-100
+        "
+      >
+        <div className="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-6">
+          <span className="text-3xl">✨</span>
+        </div>
+
+        <h3 className="font-serif text-xl font-semibold italic text-muted-foreground">
+          Pastor Coming Soon
+        </h3>
+
+        <p className="text-xs text-muted-foreground mt-2 italic">
+          Stay tuned for updates
+        </p>
       </div>
     </motion.div>
   );
@@ -70,9 +180,11 @@ export function PastorsSection() {
           <span className="text-primary text-sm font-medium uppercase tracking-wider">
             Our Leadership
           </span>
+
           <h2 className="font-serif text-4xl md:text-5xl font-bold mt-4 mb-6">
             Meet Our Pastors
           </h2>
+
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Guided by faith and a heart for service, our pastors lead our congregation with love and wisdom.
           </p>
@@ -94,10 +206,8 @@ export function PastorsSection() {
             <span className="text-sm font-medium uppercase tracking-wider">
               {showOthers ? "Hide" : "View All"} Pastors
             </span>
-            <motion.div
-              animate={{ rotate: showOthers ? 180 : 0 }}
-              transition={{ duration: 0.3 }}
-            >
+
+            <motion.div animate={{ rotate: showOthers ? 180 : 0 }} transition={{ duration: 0.3 }}>
               <ChevronDown className="h-5 w-5 group-hover:text-primary transition-colors" />
             </motion.div>
           </button>
@@ -117,6 +227,10 @@ export function PastorsSection() {
                 {otherPastors.map((pastor, index) => (
                   <PastorCard key={pastor.name} pastor={pastor} index={index} />
                 ))}
+
+                {/* Add 2 Coming Soon cards */}
+                <ComingSoonCard index={otherPastors.length} />
+                <ComingSoonCard index={otherPastors.length + 1} />
               </div>
             </motion.div>
           )}
