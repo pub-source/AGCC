@@ -3,6 +3,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, User, LogOut, ChevronDown, Church, Calendar, BookOpen, Heart, HandHeart, Music } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import churchLogo from "@/assets/logo.jpg";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -83,9 +85,13 @@ export function Navbar() {
       <div className="container mx-auto px-4 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-violet-dark flex items-center justify-center">
-            <span className="text-primary-foreground font-serif font-bold text-xl">✝</span>
-          </div>
+          <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center overflow-hidden border border-white/20 shadow-md">
+  <img
+    src={churchLogo}
+    alt="Awesome God Christian Church Logo"
+    className="w-full h-full object-cover"
+  />
+</div>
           <span className="font-serif text-lg font-semibold text-foreground leading-tight">
             <span className="block">Awesome God Christian Church</span>
             <span className="block text-xs text-muted-foreground">Nat'l</span>
