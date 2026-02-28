@@ -4,13 +4,46 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { format } from "date-fns";
+import { format, nextDay, addDays } from "date-fns";
 
 interface EventItem {
   id: string;
   title: string;
   event_date: string;
   event_type: string | null;
+}
+
+/** Returns the next occurrence of a given day-of-week (0=Sun … 6=Sat).
+ *  If today IS that day, it returns next week's occurrence so the event
+ *  never appears as "already today / in the past". */
+function getNextWeekday(dayOfWeek: 0 | 1 | 2 | 3 | 4 | 5 | 6): Date {
+  const today = new Date();
+  const todayDay = today.getDay();
+  const daysUntil = (dayOfWeek - todayDay + 7) % 7 || 7; // always ≥ 1
+  return addDays(today, daysUntil);
+}
+
+function getFallbackEvents(): EventItem[] {
+  return [
+    {
+      id: "1",
+      title: "Sunday Worship Service",
+      event_date: getNextWeekday(0).toISOString(), // next Sunday
+      event_type: "Service",
+    },
+    {
+      id: "2",
+      title: "Wednesday Bible Study",
+      event_date: getNextWeekday(3).toISOString(), // next Wednesday
+      event_type: "Study",
+    },
+    {
+      id: "3",
+      title: "Youth Fellowship Night",
+      event_date: getNextWeekday(5).toISOString(), // next Friday
+      event_type: "Youth",
+    },
+  ];
 }
 
 export function EventsPreviewSection() {
@@ -29,12 +62,8 @@ export function EventsPreviewSection() {
     fetchEvents();
   }, []);
 
-  // Fallback static events if none in DB
-  const displayEvents = events.length > 0 ? events : [
-    { id: "1", title: "Sunday Worship Service", event_date: "2026-02-15", event_type: "Service" },
-    { id: "2", title: "Wednesday Bible Study", event_date: "2026-02-18", event_type: "Study" },
-    { id: "3", title: "Youth Fellowship Night", event_date: "2026-02-20", event_type: "Youth" },
-  ];
+  // Fallback uses dynamic dates so they never show as past
+  const displayEvents = events.length > 0 ? events : getFallbackEvents();
 
   return (
     <section className="py-24 md:py-32">
