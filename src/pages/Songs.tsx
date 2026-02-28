@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Layout } from "@/components/layout/Layout";
-import { Music, Search, FileAudio, ChevronDown, ChevronUp } from "lucide-react";
+import { Music, Search, FileAudio, X, MicVocal } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { BackButton } from "@/components/ui/back-button";
@@ -20,17 +20,101 @@ interface Song {
   audio_url: string | null;
 }
 
+// ─── Lyrics Modal ──────────────────────────────────────────────────────────────
+function LyricsModal({ song, onClose }: { song: Song; onClose: () => void }) {
+  // Close on backdrop click
+  return (
+    <AnimatePresence>
+      <motion.div
+        key="backdrop"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.25 }}
+        className="fixed inset-0 z-50 flex items-center justify-center p-4"
+        style={{ backdropFilter: "blur(10px)", background: "rgba(0,0,0,0.65)" }}
+        onClick={onClose}
+      >
+        <motion.div
+          key="modal"
+          initial={{ opacity: 0, scale: 0.92, y: 30 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.92, y: 30 }}
+          transition={{ type: "spring", stiffness: 320, damping: 28 }}
+          onClick={(e) => e.stopPropagation()}
+          className="relative w-full max-w-2xl max-h-[85vh] flex flex-col rounded-2xl overflow-hidden shadow-2xl border border-white/10"
+          style={{ background: "hsl(var(--card))" }}
+        >
+          {/* Header */}
+          <div className="shrink-0 px-6 pt-6 pb-4 border-b border-border flex items-start gap-4">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-violet-dark flex items-center justify-center shrink-0">
+              <MicVocal className="h-6 w-6 text-white" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h2 className="font-serif text-2xl font-bold leading-tight">{song.title}</h2>
+              <div className="flex flex-wrap items-center gap-2 mt-1.5">
+                {song.artist && (
+                  <span className="text-sm text-muted-foreground">{song.artist}</span>
+                )}
+                {song.key_signature && (
+                  <span className="px-2 py-0.5 rounded bg-secondary text-xs font-medium">
+                    Key: {song.key_signature}
+                  </span>
+                )}
+                {song.tempo && (
+                  <span className="px-2 py-0.5 rounded bg-secondary text-xs font-medium">
+                    {song.tempo} BPM
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              {song.audio_url && (
+                <a
+                  href={song.audio_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 rounded-lg bg-secondary hover:bg-primary/20 transition-colors"
+                  title="Play Audio"
+                >
+                  <FileAudio className="h-5 w-5 text-primary" />
+                </a>
+              )}
+              <button
+                onClick={onClose}
+                className="p-2 rounded-lg bg-secondary hover:bg-destructive/20 hover:text-destructive transition-colors"
+                title="Close"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Lyrics body — scrollable */}
+          <div className="flex-1 overflow-y-auto px-6 py-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-primary mb-4">
+              Lyrics
+            </p>
+            <pre className="whitespace-pre-wrap font-sans text-sm text-foreground/80 leading-[1.9]">
+              {song.lyrics}
+            </pre>
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
+// ─── Main Page ─────────────────────────────────────────────────────────────────
 export default function Songs() {
   const [songs, setSongs] = useState<Song[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [expandedSong, setExpandedSong] = useState<string | null>(null);
+  const [selectedSong, setSelectedSong] = useState<Song | null>(null);
   const { churchId, churchName, isApproved, isLoading: churchLoading } = useUserChurch();
 
   useEffect(() => {
-    if (!churchLoading) {
-      fetchSongs();
-    }
+    if (!churchLoading) fetchSongs();
   }, [churchLoading, churchId]);
 
   const fetchSongs = async () => {
@@ -39,14 +123,12 @@ export default function Songs() {
       setLoading(false);
       return;
     }
-
     try {
       const { data, error } = await supabase
         .from("songs")
         .select("*")
         .eq("church_id", churchId)
         .order("title", { ascending: true });
-
       if (error) throw error;
       setSongs(data || []);
     } catch (error) {
@@ -109,11 +191,15 @@ export default function Songs() {
 
   return (
     <Layout>
+      {/* Lyrics Modal */}
+      {selectedSong && selectedSong.lyrics && (
+        <LyricsModal song={selectedSong} onClose={() => setSelectedSong(null)} />
+      )}
+
       {/* Hero */}
       <section className="pt-32 pb-16 relative overflow-hidden">
         <div className="absolute inset-0 hero-gradient" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-3xl" />
-
         <div className="container mx-auto px-4 relative">
           <BackButton to="/" label="Back to Home" />
           <motion.div
@@ -160,7 +246,9 @@ export default function Songs() {
               <Music className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
               <p className="text-xl font-semibold mb-2">No songs found</p>
               <p className="text-muted-foreground">
-                {searchQuery ? "Try a different search term." : "Songs will appear here once added by the worship team."}
+                {searchQuery
+                  ? "Try a different search term."
+                  : "Songs will appear here once added by the worship team."}
               </p>
             </div>
           ) : (
@@ -174,18 +262,15 @@ export default function Songs() {
                   transition={{ duration: 0.4, delay: index * 0.05 }}
                 >
                   <div className="glass-card overflow-hidden hover:border-primary/30 transition-all duration-300">
-                    {/* Song Header */}
-                    <button
-                      onClick={() => setExpandedSong(expandedSong === song.id ? null : song.id)}
-                      className="w-full p-6 flex items-center gap-4 text-left"
-                    >
+                    <div className="w-full p-6 flex items-center gap-4">
+                      {/* Icon */}
                       <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-violet-dark flex items-center justify-center shrink-0">
                         <Music className="h-6 w-6 text-white" />
                       </div>
+
+                      {/* Info */}
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-serif text-lg font-semibold truncate">
-                          {song.title}
-                        </h3>
+                        <h3 className="font-serif text-lg font-semibold truncate">{song.title}</h3>
                         <div className="flex items-center gap-3 text-sm text-muted-foreground">
                           {song.artist && <span>{song.artist}</span>}
                           {song.key_signature && (
@@ -200,7 +285,9 @@ export default function Songs() {
                           )}
                         </div>
                       </div>
-                      <div className="flex items-center gap-3 shrink-0">
+
+                      {/* Actions */}
+                      <div className="flex items-center gap-2 shrink-0">
                         {song.audio_url && (
                           <a
                             href={song.audio_url}
@@ -213,37 +300,17 @@ export default function Songs() {
                             <FileAudio className="h-5 w-5 text-primary" />
                           </a>
                         )}
-                        {song.lyrics ? (
-                          expandedSong === song.id ? (
-                            <ChevronUp className="h-5 w-5 text-muted-foreground" />
-                          ) : (
-                            <ChevronDown className="h-5 w-5 text-muted-foreground" />
-                          )
-                        ) : null}
+                        {song.lyrics && (
+                          <button
+                            onClick={() => setSelectedSong(song)}
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary text-xs font-semibold uppercase tracking-wider transition-colors"
+                          >
+                            <MicVocal className="h-3.5 w-3.5" />
+                            Lyrics
+                          </button>
+                        )}
                       </div>
-                    </button>
-
-                    {/* Lyrics Expand */}
-                    <AnimatePresence>
-                      {expandedSong === song.id && song.lyrics && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="overflow-hidden"
-                        >
-                          <div className="px-6 pb-6 pt-2 border-t border-border">
-                            <h4 className="text-sm font-medium text-primary mb-3 uppercase tracking-wider">
-                              Lyrics
-                            </h4>
-                            <pre className="whitespace-pre-wrap font-sans text-sm text-muted-foreground leading-relaxed">
-                              {song.lyrics}
-                            </pre>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                    </div>
                   </div>
                 </motion.div>
               ))}
